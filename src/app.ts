@@ -14,9 +14,9 @@ const main = async (): Promise<void> => {
 
             //* Show message
             const place = await readIput('Enter the place to find');
-            console.log(place);
+
+            await searchs.city(place)
             
-            // searchs.city(place)
             
             //* Search places
             //* Choice place
