@@ -1,11 +1,13 @@
 import { inquirerMenu, readIput, stopInquirerMenu } from "./helpers/inquirerMenu";
 import Searchs from "./models/searchs";
+import * as dotenv from 'dotenv'
+dotenv.config();
 
 const main = async (): Promise<void> => {
-
+    
     const searchs = new Searchs(); 
     let opt: number;
-
+    
     do {
         opt = await inquirerMenu();
         

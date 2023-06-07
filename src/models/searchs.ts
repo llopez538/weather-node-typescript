@@ -12,21 +12,24 @@ class Searchs {
     // TODO: read DB is exists
   }
 
+  get paramsMabox() {
+    return {
+      'proximity': "ip",
+      'language': "es",
+      'autocomplete': "true",
+      'limit': 5,
+      'access_token': process.env.MAPBOX,
+    }
+  }
+
   public async city(place: string = "") {
     try {
       // request http
       
       const instance = axios.create({
         baseURL: `https://api.mapbox.com`,
-        params: {
-            'proximity': "ip",
-            'language': "es",
-            'autocomplete': "true",
-            'access_token': "pk.eyJ1IjoibGVvbmFyZGxtNTM4IiwiYSI6ImNsaThjbGR3YzFncHYzbnFwbWJxdjNqaHUifQ.qeVvtuDcvELNVEkQeEmVig",
-        }
+        params: this.paramsMabox
       })
-
-    //   instance.defaults.headers.common['Authorization'] = "pk.eyJ1IjoibGVvbmFyZGxtNTM4IiwiYSI6ImNsaThjbGR3YzFncHYzbnFwbWJxdjNqaHUifQ.qeVvtuDcvELNVEkQeEmVig";
 
       const response = await instance.get(`/geocoding/v5/mapbox.places/${place}.json?`);
 
