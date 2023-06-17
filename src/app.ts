@@ -1,4 +1,4 @@
-import { inquirerMenu, readIput, stopInquirerMenu } from "./helpers/inquirerMenu";
+import { inquirerMenu, listPlaces, readIput, stopInquirerMenu } from "./helpers/inquirerMenu";
 import Searchs from "./models/searchs";
 import * as dotenv from 'dotenv'
 dotenv.config();
@@ -15,20 +15,23 @@ const main = async (): Promise<void> => {
             case 1:
 
             //* Show message
-            const place = await readIput('Enter the place to find');
-
-            await searchs.city(place)
-            
+            const keyWordSearch = await readIput('Enter the place to find');
             
             //* Search places
+            const places = await searchs.city(keyWordSearch);
+            
             //* Choice place
+            const choosedId = await listPlaces(places);
+
+            const {id, name, lng, lat } = places.find( (keyWordPlace: any) => keyWordPlace.id === choosedId);
+            
             //* Weather
             //* Show result
                 
                 console.log("\nInformation about the City\n".yellow);
-                console.log("City: ".blue, );
-                console.log("Lat: ".blue, );
-                console.log("Log: ".blue, );
+                console.log("City: ".blue, name);
+                console.log("Lat: ".blue, lat);
+                console.log("Log: ".blue, lng);
                 console.log("Temperature: ".blue, );
                 console.log("Minimum: ".blue, );
                 console.log("Maximum: ".blue, );

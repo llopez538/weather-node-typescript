@@ -71,6 +71,36 @@ const readIput = async ( message: string = '' ): Promise<any> => {
     return description;
 }
 
+const listPlaces = async (places: any = []) => {
+
+    const choices = places.map( (keyWordPlace: any, i: number): Object => {
+        const idx = `${ i + 1 }.`.yellow;
+        return {
+            value: keyWordPlace.id,
+            name: `${idx} ${keyWordPlace.name}`
+        }
+    });
+
+    choices.unshift({
+        value: '0',
+        name: '0. '.yellow + 'Cancel'
+    });
+
+    const question = [
+        {
+            type: 'list',
+            name: 'id',
+            message: 'Choose your place: ',
+            choices 
+        }
+    ];
+
+    const { id } = await inquirer.prompt(question); 
+
+    return id;
+    
+}
+
 const confirm = async ( message: string ): Promise<boolean> => {
     const question = [
         {
@@ -92,5 +122,6 @@ export {
     stopInquirerMenu,
     readIput,
     confirm,
+    listPlaces,
 
 };

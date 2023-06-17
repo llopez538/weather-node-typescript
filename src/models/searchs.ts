@@ -33,12 +33,15 @@ class Searchs {
 
       const response = await instance.get(`/geocoding/v5/mapbox.places/${place}.json?`);
 
-      console.log("Hola", response.data);
-
-      return []; // return match to the places' find
+      return response.data.features.map( (place: any) => ({
+        id: place.id,
+        name: place.place_name,
+        lng: place.center[0],
+        lat: place.center[1]
+        
+      }));
     } catch (error) {
       console.log(error);
-      ;
     }
   }
 }
