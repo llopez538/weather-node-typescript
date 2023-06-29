@@ -26,16 +26,18 @@ const main = async (): Promise<void> => {
             const {id, name, lng, lat } = places.find( (keyWordPlace: any) => keyWordPlace.id === choosedId);
             
             //* Weather
+            const weather = await searchs.weatherPlace(lat, lng);
+            
             //* Show result
-                
+                console.clear();
                 console.log("\nInformation about the City\n".yellow);
                 console.log("City: ".blue, name);
                 console.log("Lat: ".blue, lat);
                 console.log("Log: ".blue, lng);
-                console.log("Temperature: ".blue, );
-                console.log("Minimum: ".blue, );
-                console.log("Maximum: ".blue, );
-                
+                console.log("Temperature: ".blue, weather?.temp);
+                console.log("Minimum: ".blue, weather?.temp_min);
+                console.log("Maximum: ".blue, weather?.temp_max);              
+                console.log("How's the weather: ".blue, weather?.description);              
                 
                 break;
             case 2:
