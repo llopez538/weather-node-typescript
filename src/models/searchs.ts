@@ -101,6 +101,8 @@ class Searchs {
       const result = this.history.includes( place );
       
       if (!result) {
+        this.history = this.history.splice(0, 5);
+        
         this.history.unshift(place.toLowerCase());
         
         this.saveDB();
