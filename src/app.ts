@@ -23,7 +23,12 @@ const main = async (): Promise<void> => {
             //* Choice place
             const choosedId = await listPlaces(places);
 
+            if (choosedId === '0') continue;
+
             const {id, name, lng, lat } = places.find( (keyWordPlace: any) => keyWordPlace.id === choosedId);
+
+            // Save in DB
+            searchs.save_history(name);
             
             //* Weather
             const weather = await searchs.weatherPlace(lat, lng);
@@ -41,7 +46,10 @@ const main = async (): Promise<void> => {
                 
                 break;
             case 2:
-                
+                searchs.capitalizeHistory.forEach( (place, i) => {
+                    const idx = `\t${ i + 1}.`.green;
+                    console.log(`${idx} ${place}`);
+                });
                 break;
             case 0:
                 

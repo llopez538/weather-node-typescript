@@ -1,15 +1,25 @@
 import axios from "axios";
+import * as fs from 'node:fs';
+import { saveDB } from "../helpers/saveDB";
 
 class Searchs {
-  public history: string[] = [
-    "Caracas",
-    "Bogota",
-    "Santiago de Chile",
-    "Madrid",
-    "Canada",
-  ];
+
+  public history: string[] = [];
+  public file: string = __dirname + '/../db/data.json';
+
   constructor() {
     // TODO: read DB is exists
+    this.readDB();
+  }
+
+  get capitalizeHistory() {
+    return this.history.map( place => {
+      let words = place.split(' ');
+
+      words = words.map( word => word[0].toUpperCase() + word.substring(1))
+
+      return words.join(' ');
+    })
   }
 
   get paramsMabox() {
@@ -82,6 +92,44 @@ class Searchs {
     } catch (error) {
       console.error(error);
     }
+  }
+
+  public save_history( place: string = '') {
+    
+    if (place !== '') {
+      
+      const result = this.history.includes( place );
+      
+      if (!result) {
+        this.history.unshift(place.toLowerCase());
+        
+        this.saveDB();
+      }
+    }
+  }
+  
+  public saveDB(): void {
+    
+    const payload = {
+        history: this.history
+    }
+
+    fs.writeFileSync(this.file, JSON.stringify(payload))
+  }
+
+  public readDB(): Object | null {
+
+    if (!fs.existsSync(this.file)) {
+      return null;
+    }
+
+    const info = fs.readFileSync(this.file, {encoding: 'utf-8'});
+
+    const data = JSON.parse(info);
+
+    this.history =data.history
+
+    return this.history;
   }
 }
 
